@@ -29,14 +29,6 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: residuoInstance, field: 'dataCadastro', 'error')} required">
-	<label for="dataCadastro">
-		<g:message code="residuo.dataCadastro.label" default="Data Cadastro" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="dataCadastro" precision="day"  value="${residuoInstance?.dataCadastro}"  />
-
-</div>
 
 <div class="fieldcontain ${hasErrors(bean: residuoInstance, field: 'laboratorio', 'error')} required">
 	<label for="laboratorio">

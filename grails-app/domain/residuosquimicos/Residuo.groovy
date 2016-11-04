@@ -24,15 +24,8 @@ class Residuo {
         nome blank:false, nullable: false
         descricao blank:false, nullable: false
         peso nullable: false
-        dataCadastro nullable:false
         laboratorio nullable:false
-    }
-
-    Residuo(String nome, String descricao, double peso) {
-        this.nome = nome
-        this.descricao = descricao
-        this.peso = peso
-        this.dataCadastro = new Date();
+        dataCadastro default: new Date()
     }
 
 }

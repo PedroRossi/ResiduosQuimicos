@@ -35,6 +35,8 @@ class ResiduoController {
             return
         }
 
+        residuoInstance.dataCadastro = new Date()
+
         residuoInstance.save flush:true
 
         request.withFormat {
