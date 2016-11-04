@@ -25,9 +25,9 @@ class Laboratorio {
     static hasMany = [residuos: Residuo]
 
     static constraints = {
-        centro blank: false, nullable: false
-        departamento blank: false, nullable: false
-        laboratorio blank: false, nullable: false
+        centro blank: false
+        departamento blank: false
+        laboratorio blank: false
         solicitante nullable: true
         responsavel nullable: true
     }

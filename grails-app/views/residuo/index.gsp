@@ -28,11 +28,11 @@
 					
 						<g:sortableColumn property="descricao" title="${message(code: 'residuo.descricao.label', default: 'Descricao')}" />
 					
-						<g:sortableColumn property="peso" title="${message(code: 'residuo.peso.label', default: 'Peso')}" />
-					
 						<g:sortableColumn property="dataCadastro" title="${message(code: 'residuo.dataCadastro.label', default: 'Data Cadastro')}" />
 					
 						<th><g:message code="residuo.laboratorio.label" default="Laboratorio" /></th>
+					
+						<g:sortableColumn property="peso" title="${message(code: 'residuo.peso.label', default: 'Peso')}" />
 					
 					</tr>
 				</thead>
@@ -44,11 +44,11 @@
 					
 						<td>${fieldValue(bean: residuoInstance, field: "descricao")}</td>
 					
-						<td>${fieldValue(bean: residuoInstance, field: "peso")}</td>
-					
 						<td><g:formatDate date="${residuoInstance.dataCadastro}" /></td>
 					
 						<td>${fieldValue(bean: residuoInstance, field: "laboratorio")}</td>
+					
+						<td>${fieldValue(bean: residuoInstance, field: "peso")}</td>
 					
 					</tr>
 				</g:each>

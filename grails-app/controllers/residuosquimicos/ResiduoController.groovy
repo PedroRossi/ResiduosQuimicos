@@ -35,8 +35,6 @@ class ResiduoController {
             return
         }
 
-        residuoInstance.dataCadastro = new Date()
-
         residuoInstance.save flush:true
 
         request.withFormat {
@@ -45,29 +43,6 @@ class ResiduoController {
                 redirect residuoInstance
             }
             '*' { respond residuoInstance, [status: CREATED] }
-        }
-    }
-
-    @Transactional
-    def update(Residuo residuoInstance) {
-        if (residuoInstance == null) {
-            notFound()
-            return
-        }
-
-        if (residuoInstance.hasErrors()) {
-            respond residuoInstance.errors, view:'edit'
-            return
-        }
-
-        residuoInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Residuo.label', default: 'Residuo'), residuoInstance.id])
-                redirect residuoInstance
-            }
-            '*'{ respond residuoInstance, [status: OK] }
         }
     }
 

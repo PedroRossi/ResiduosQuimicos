@@ -21,11 +21,8 @@ class Residuo {
     static belongsTo = [laboratorio:Laboratorio]
 
     static constraints = {
-        nome blank:false, nullable: false
-        descricao blank:false, nullable: false
-        peso nullable: false
-        laboratorio nullable:false
-        dataCadastro default: new Date()
+        nome blank:false
+        descricao blank:false
     }
 
 }

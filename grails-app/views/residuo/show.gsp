@@ -41,15 +41,6 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${residuoInstance?.peso}">
-				<li class="fieldcontain">
-					<span id="peso-label" class="property-label"><g:message code="residuo.peso.label" default="Peso" /></span>
-					
-						<span class="property-value" aria-labelledby="peso-label"><g:fieldValue bean="${residuoInstance}" field="peso"/></span>
-					
-				</li>
-				</g:if>
-			
 				<g:if test="${residuoInstance?.dataCadastro}">
 				<li class="fieldcontain">
 					<span id="dataCadastro-label" class="property-label"><g:message code="residuo.dataCadastro.label" default="Data Cadastro" /></span>
@@ -68,10 +59,18 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${residuoInstance?.peso}">
+				<li class="fieldcontain">
+					<span id="peso-label" class="property-label"><g:message code="residuo.peso.label" default="Peso" /></span>
+					
+						<span class="property-value" aria-labelledby="peso-label"><g:fieldValue bean="${residuoInstance}" field="peso"/></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:residuoInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
-					<g:link class="edit" action="edit" resource="${residuoInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>

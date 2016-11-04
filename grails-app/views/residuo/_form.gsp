@@ -29,13 +29,20 @@
 
 </div>
 
-
 <div class="fieldcontain ${hasErrors(bean: residuoInstance, field: 'laboratorio', 'error')} required">
-	<label for="laboratorio">
-		<g:message code="residuo.laboratorio.label" default="Laboratorio" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="laboratorio" name="laboratorio.id" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" required="" value="${residuoInstance?.laboratorio?.id}" class="many-to-one"/>
+    <label for="laboratorio">
+        <g:message code="residuo.laboratorio.label" default="Laboratorio" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select id="laboratorio" name="laboratorio.id" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" required="" value="${residuoInstance?.laboratorio?.id}" class="many-to-one"/>
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: residuoInstance, field: 'dataCadastro', 'error')} required">
+    <label for="dataCadastro">
+        <g:message code="residuo.dataCadastro.label" default="Data Cadastro" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:datePicker name="dataCadastro" precision="day"  value="${residuoInstance?.dataCadastro}"  />
+
+</div>
