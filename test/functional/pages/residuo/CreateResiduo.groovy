@@ -13,10 +13,11 @@ class CreateResiduo extends Page {
         title ==~ /Create Residuo/
     }
 
-    def createResiduo(residuo, peso) {
+    def createResiduo(residuo, peso, data) {
         $("form").nome = residuo
         $("form").descricao = residuo
         $("form").peso = peso
+        $("form")
         $("input", name: "create").click()
     }
 

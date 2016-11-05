@@ -13,8 +13,11 @@ class IndexFacilitador extends Page {
         title ==~ /Resumo Sistema/
     }
 
-    boolean compare(peso, qntResiduos) {
+    boolean comparePeso(peso) {
         $("p", name: "peso").has(text: peso)
+    }
+
+    boolean compareQnt(qntResiduos) {
         $("p", name: "qntResiduos").has(text: qntResiduos)
     }
 
