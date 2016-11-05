@@ -34,7 +34,7 @@
         <g:message code="residuo.laboratorio.label" default="Laboratorio" />
         <span class="required-indicator">*</span>
     </label>
-    <g:select id="laboratorio" name="laboratorio.id" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" required="" value="${residuoInstance?.laboratorio?.id}" class="many-to-one"/>
+    <g:select id="laboratorio" name="laboratorio.id" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${residuoInstance?.laboratorio?.id}" class="many-to-one"/>
 
 </div>
 
@@ -43,6 +43,6 @@
         <g:message code="residuo.dataCadastro.label" default="Data Cadastro" />
         <span class="required-indicator">*</span>
     </label>
-    <g:datePicker name="dataCadastro" precision="day"  value="${residuoInstance?.dataCadastro}"  />
+    <g:datePicker name="dataCadastro" precision="day"  value="${residuoInstance?.dataCadastro}" />
 
 </div>

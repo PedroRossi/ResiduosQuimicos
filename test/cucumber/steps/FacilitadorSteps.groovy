@@ -2,10 +2,14 @@ package steps
 
 import cucumber.api.PendingException
 import pages.facilitador.IndexFacilitador
+import pages.facilitador.RelatorioFacilitador
 import pages.laboratorio.CreateLaboratorio
 import pages.laboratorio.ShowLaboratorio
 import pages.residuo.CreateResiduo
+import pages.residuo.IndexResiduo
 import pages.residuo.ShowResiduo
+
+import javax.persistence.Index
 
 /**
  * Created by pedro on 04/11/16.
@@ -14,7 +18,7 @@ import pages.residuo.ShowResiduo
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-Given(~/^o residuos "([^"]*)" pesando (\d+) está cadastrado$/) {
+Given(~/^o residuos "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
 String res, peso ->
     // É preciso garantir que existe um laboratorio para o
     // teste ja que as implementacoes relativas a autenticacao
@@ -25,10 +29,11 @@ String res, peso ->
     at ShowLaboratorio
     to CreateResiduo
     at CreateResiduo
+    // Data aleatoria já que nesse teste não importa a data
     page.createResiduo(res, peso, "20/09/2016")
     at ShowResiduo
 }
-And(~/^o residuo "([^"]*)" pesando (\d+) está cadastrado$/) {
+And(~/^o residuo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
 String res, peso ->
     to CreateResiduo
     at CreateResiduo
@@ -48,61 +53,71 @@ int qntResiduos ->
     page.compareQnt(qntResiduos)
 }
 
-Given(~/^os residuos "([^"]*)", "([^"]*)" e "([^"]*)" com a data "([^"]*)" estão cadastrados no sistema$/) {
-String res1, String res2, String res3, String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+Given(~/^os residuos "([^"]*)" e "([^"]*)" estão cadastrados no sistema$/) {
+String res1, String res2 ->
+    to IndexResiduo
+    at IndexResiduo
+    page.hasResiduo(res1)
+    page.hasResiduo(res2)
 }
-When(~/^eu seleciono a data "([^"]*)" para gerar relatorio$/) {
+And(~/^o residuo "([^"]*)" com a data "([^"]*)" também está cadastrado$/) {
+String res, String data ->
+    to CreateResiduo
+    at CreateResiduo
+    // Peso arbitrario ja que o peso não importa nesse teste
+    page.createResiduo(res, 10, data)
+    at ShowResiduo
+}
+When(~/^eu clico para gerar relatorio com "([^"]*)" como data$/) {
 String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    to IndexFacilitador
+    at IndexFacilitador
+    page.gerarRelatorio(data)
 }
-And(~/^clico para gerar relatorio$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
-Then(~/^eu visalizo os residuos "([^"]*)", "([^"]*)" e "([^"]*)" em uma pagina$/) {
+Then(~/^eu visalizo os residuos "([^"]*)", "([^"]*)" e "([^"]*)" na pagina de relatorio$/) {
 String res1, String res2, String res3 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    at RelatorioFacilitador
+    page.hasResiduo(res1)
+    page.hasResiduo(res2)
+    page.hasResiduo(res3)
 }
 
 Given(~/^o residuos "([^"]*)" na data "([^"]*)" está cadastrado$/) {
 String res, String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    to IndexResiduo
+    at IndexResiduo
+    page.hasResiduo(res, data)
 }
 And(~/^o residuo "([^"]*)" na data "([^"]*)" está cadastrado$/) {
 String res, String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    to IndexResiduo
+    at IndexResiduo
+    page.hasResiduo(res, data)
 }
-When(~/^eu seleciono "([^"]*)" como a data$/) {
+When(~/^eu vou para pagina principal de facilitador$/) { ->
+    to IndexFacilitador
+    at IndexFacilitador
+}
+And(~/^eu seleciono "([^"]*)" como a data e clico para remover os residuos$/) {
 String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    page.removeResiduos(data)
 }
-And(~/^eu clico para remover os residuos$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
-Then(~/^eu posso ver uma pagina com o numero total de residuos deletados$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+Then(~/^eu posso ver uma pagina com (\d+) como o numero total de residuos deletados$/) {
+int n ->
+    at RemocaoFacilitador
+    page.hasQntResiduos(n)
 }
 
-Given(~/^o residuos "([^"]*)" com a data "([^"]*)" se encontra armazenado$/) {
-String res, String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+Given(~/^nenhum residuo se encontra armazenado$/) {
+    to IndexFacilitador
+    at IndexFacilitador
+    page.isEmpty()
 }
 When(~/^eu clico para remover os residuos com "([^"]*)" como a data$/) {
 String data ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    page.removeResiduos(data)
 }
 Then(~/^eu posso ver uma pagina com uma mensagem de erro$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    at IndexFacilitador
+    page.hasRemoveError()
 }

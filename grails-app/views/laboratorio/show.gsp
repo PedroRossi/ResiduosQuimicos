@@ -22,14 +22,14 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list laboratorio">
-			
-				<g:if test="${laboratorioInstance?.centro}">
-				<li class="fieldcontain">
-					<span id="centro-label" class="property-label"><g:message code="laboratorio.centro.label" default="Centro" /></span>
-					
-						<span class="property-value" aria-labelledby="centro-label"><g:fieldValue bean="${laboratorioInstance}" field="centro"/></span>
-					
-				</li>
+
+				<g:if test="${laboratorioInstance?.laboratorio}">
+					<li class="fieldcontain">
+						<span id="laboratorio-label" class="property-label"><g:message code="laboratorio.laboratorio.label" default="Nome" /></span>
+
+						<span class="property-value" aria-labelledby="laboratorio-label"><g:fieldValue bean="${laboratorioInstance}" field="laboratorio"/></span>
+
+					</li>
 				</g:if>
 			
 				<g:if test="${laboratorioInstance?.departamento}">
@@ -40,14 +40,14 @@
 					
 				</li>
 				</g:if>
-			
-				<g:if test="${laboratorioInstance?.laboratorio}">
-				<li class="fieldcontain">
-					<span id="laboratorio-label" class="property-label"><g:message code="laboratorio.laboratorio.label" default="Laboratorio" /></span>
-					
-						<span class="property-value" aria-labelledby="laboratorio-label"><g:fieldValue bean="${laboratorioInstance}" field="laboratorio"/></span>
-					
-				</li>
+
+				<g:if test="${laboratorioInstance?.centro}">
+					<li class="fieldcontain">
+						<span id="centro-label" class="property-label"><g:message code="laboratorio.centro.label" default="Centro" /></span>
+
+						<span class="property-value" aria-labelledby="centro-label"><g:fieldValue bean="${laboratorioInstance}" field="centro"/></span>
+
+					</li>
 				</g:if>
 			
 				<g:if test="${laboratorioInstance?.solicitante}">

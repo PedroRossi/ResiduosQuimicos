@@ -23,12 +23,12 @@
 			<table>
 			<thead>
 					<tr>
-					
-						<g:sortableColumn property="centro" title="${message(code: 'laboratorio.centro.label', default: 'Centro')}" />
-					
-						<g:sortableColumn property="departamento" title="${message(code: 'laboratorio.departamento.label', default: 'Departamento')}" />
-					
+
 						<g:sortableColumn property="laboratorio" title="${message(code: 'laboratorio.laboratorio.label', default: 'Laboratorio')}" />
+
+						<g:sortableColumn property="departamento" title="${message(code: 'laboratorio.departamento.label', default: 'Departamento')}" />
+
+						<g:sortableColumn property="centro" title="${message(code: 'laboratorio.centro.label', default: 'Centro')}" />
 					
 						<th><g:message code="laboratorio.solicitante.label" default="Solicitante" /></th>
 					
@@ -39,12 +39,12 @@
 				<tbody>
 				<g:each in="${laboratorioInstanceList}" status="i" var="laboratorioInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "centro")}</g:link></td>
+
+						<td><g:link action="show" id="${laboratorioInstance.id}">${fieldValue(bean: laboratorioInstance, field: "laboratorio")}</g:link></td>
 					
 						<td>${fieldValue(bean: laboratorioInstance, field: "departamento")}</td>
-					
-						<td>${fieldValue(bean: laboratorioInstance, field: "laboratorio")}</td>
+
+						<td>${fieldValue(bean: laboratorioInstance, field: "centro")}</td>
 					
 						<td>${fieldValue(bean: laboratorioInstance, field: "solicitante")}</td>
 					

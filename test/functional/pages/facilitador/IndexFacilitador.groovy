@@ -21,4 +21,8 @@ class IndexFacilitador extends Page {
         $("p", name: "qntResiduos").has(text: qntResiduos)
     }
 
+    boolean isEmpty() {
+        $("tbody").isEmpty()
+    }
+
 }

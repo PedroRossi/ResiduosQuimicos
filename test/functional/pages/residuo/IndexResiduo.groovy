@@ -14,7 +14,7 @@ class IndexResiduo extends Page {
     }
 
     boolean hasResiduo(residuo) {
-
+        $("td").has("a", text: residuo)
     }
 
 }
