@@ -17,4 +17,13 @@ class IndexResiduo extends Page {
         $("td").has("a", text: residuo)
     }
 
+    boolean hasResiduo(residuo, data) {
+        $("td").has("a", text: residuo)
+        $("td").has(text: data)
+    }
+
+    boolean isEmpty() {
+        $("tbody").isEmpty()
+    }
+
 }

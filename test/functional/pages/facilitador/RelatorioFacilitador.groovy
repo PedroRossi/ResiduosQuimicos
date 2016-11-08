@@ -7,14 +7,14 @@ import geb.Page
  */
 class RelatorioFacilitador extends Page {
 
-    static url = "/asdasd"
+    static url = "/ResiduosQuimicos/facilitador/index"
 
     static at = {
-        title ==~ /adsasd/
+        title ==~ /Relatorio/
     }
 
     boolean hasResiduo(residuo) {
-
+        $("td").has("a", text: residuo)
     }
 
 }

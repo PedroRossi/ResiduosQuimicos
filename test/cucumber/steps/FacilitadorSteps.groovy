@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import pages.facilitador.IndexFacilitador
 import pages.facilitador.RelatorioFacilitador
 import pages.laboratorio.CreateLaboratorio
@@ -7,6 +8,8 @@ import pages.laboratorio.ShowLaboratorio
 import pages.residuo.CreateResiduo
 import pages.residuo.IndexResiduo
 import pages.residuo.ShowResiduo
+import residuosquimicos.Laboratorio
+import residuosquimicos.ResiduoController
 
 /**
  * Created by pedro on 04/11/16.
@@ -70,10 +73,10 @@ String data ->
     to IndexFacilitador
     at IndexFacilitador
     page.gerarRelatorio(data)
+    at RelatorioFacilitador
 }
 Then(~/^eu visalizo os residuos "([^"]*)", "([^"]*)" e "([^"]*)" na pagina de relatorio$/) {
 String res1, String res2, String res3 ->
-    at RelatorioFacilitador
     page.hasResiduo(res1)
     page.hasResiduo(res2)
     page.hasResiduo(res3)
@@ -81,10 +84,6 @@ String res1, String res2, String res3 ->
 
 Given(~/^o residuos "([^"]*)" na data "([^"]*)" está cadastrado$/) {
 String res, String data ->
-    to CreateLaboratorio
-    at CreateLaboratorio
-    page.createLaboratorio()
-    at ShowLaboratorio
     to IndexResiduo
     at IndexResiduo
     page.hasResiduo(res, data)
@@ -103,9 +102,28 @@ And(~/^eu seleciono "([^"]*)" como a data e clico para remover os residuos$/) {
 String data ->
     page.removeResiduos(data)
 }
-Then(~/^eu posso ver uma pagina com (\d+) como o numero total de residuos deletados$/) {
-int n ->
-    at RemocaoFacilitador
-    page.hasQntResiduos(n)
+Then(~/^eu posso ver uma pagina vazia$/) { ->
+    to IndexResiduo
+    page.isEmpty()
 }
 
+def criarResiduo(nome, data, controller) {
+    controller << [nome: nome, data: new Date(data), descricao: "None", laboratorio: Laboratorio.find(1)]
+    controller.save()
+    controller.response.reset()
+}
+
+Given(~/^o residuos "([^"]*)" está cadastrado na data "([^"]*)"$/) {
+String nome, String data ->
+    def resCont = new ResiduoController()
+    criarResiduo(nome, data, resCont)
+    assert Residuo.size() == 1
+}
+When(~/^eu requisito um relatorio dos residuos a partir de "([^"]*)"$/) { String arg1 ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}
+Then(~/^nada é retornado$/) { ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}

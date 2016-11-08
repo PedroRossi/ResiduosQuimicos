@@ -24,7 +24,6 @@ class CreateResiduo extends Page {
         $("form").descricao = residuo
         $("form").peso = peso
         $("form").dataCadastro_day = dia
-        // TODO internacionalizar
         String mesString = new DateFormatSymbols(Locale.US).getMonths()[Integer.parseInt(mes)-1]
         $("form").dataCadastro_month = mesString
         $("form").dataCadastro_year = ano

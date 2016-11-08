@@ -9,10 +9,10 @@ import java.text.DateFormatSymbols
  */
 class IndexFacilitador extends Page {
 
-    static url = "/ResiduosQuimicos/facilitador/resumoSistema"
+    static url = "/ResiduosQuimicos/facilitador/index"
 
     static at = {
-        title ==~ /Resumo Sistema/
+        title ==~ /Index Facilitador/
     }
 
     boolean comparePeso(peso) {
@@ -21,10 +21,6 @@ class IndexFacilitador extends Page {
 
     boolean compareQnt(qntResiduos) {
         $("p", name: "qntResiduos").has(text: qntResiduos)
-    }
-
-    boolean isEmpty() {
-        $("tbody").isEmpty()
     }
 
     def gerarRelatorio(data) {
@@ -37,6 +33,19 @@ class IndexFacilitador extends Page {
         String mesString = new DateFormatSymbols(Locale.US).getMonths()[Integer.parseInt(mes)-1]
         $("form").date_month = mesString
         $("form").date_year = ano
-        $("input", name: "create").click()
+        $("input", class: "relatory").click()
+    }
+
+    def removeResiduos(data) {
+        data = data.split("/")
+        def dia = data[0]
+        def mes = data[1]
+        def ano = data[2]
+        $("form").date_day = dia
+        // TODO internacionalizar
+        String mesString = new DateFormatSymbols(Locale.US).getMonths()[Integer.parseInt(mes)-1]
+        $("form").date_month = mesString
+        $("form").date_year = ano
+        $("input", name: "delete").click()
     }
 }

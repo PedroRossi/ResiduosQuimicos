@@ -25,7 +25,7 @@ class Laboratorio {
     static hasMany = [residuos: Residuo]
 
     static mapping = {
-        residuos cascade: "all-delete-orphan"
+        //residuos cascade: "all-delete-orphan"
     }
 
     static constraints = {

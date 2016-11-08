@@ -22,17 +22,7 @@ class FacilitadorController {
 
     def removeAllSince() {
         def laboratorioInstance = Laboratorio.get(params.laboratorio.id)
-        def date = params.date
-        def residuos = []
-        laboratorioInstance.residuos.each { residuo ->
-            if(residuo.dataCadastro <= date) {
-                residuos.push(residuo)
-            }
-        }
-        residuos.each {
-            laboratorioInstance.removeFromResiduos(it)
-            it.delete(flush: true)
-        }
+        laboratorioInstance.residuos.clear(flush: true)
         request.withFormat {
             form multipartForm {
                 //flash.message = message(code: 'default.deleted.message', args: [message(code: 'Residuo.label', default: 'Residuo'), count])
@@ -42,7 +32,7 @@ class FacilitadorController {
         }
     }
 
-    def relatorio() {
+    def relatory() {
         def laboratorioInstance = Laboratorio.get(params.laboratorio.id)
         def date = params.date
         def residuos = []
