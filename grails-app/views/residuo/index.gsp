@@ -23,33 +23,33 @@
 			<table>
 			<thead>
 					<tr>
-					
+
 						<g:sortableColumn property="nome" title="${message(code: 'residuo.nome.label', default: 'Nome')}" />
-					
+
 						<g:sortableColumn property="descricao" title="${message(code: 'residuo.descricao.label', default: 'Descricao')}" />
-					
+
 						<g:sortableColumn property="dataCadastro" title="${message(code: 'residuo.dataCadastro.label', default: 'Data Cadastro')}" />
-					
+
 						<th><g:message code="residuo.laboratorio.label" default="Laboratorio" /></th>
-					
+
 						<g:sortableColumn property="peso" title="${message(code: 'residuo.peso.label', default: 'Peso')}" />
-					
+
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${residuoInstanceList}" status="i" var="residuoInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
+
 						<td><g:link action="show" id="${residuoInstance.id}">${fieldValue(bean: residuoInstance, field: "nome")}</g:link></td>
-					
+
 						<td>${fieldValue(bean: residuoInstance, field: "descricao")}</td>
-					
+
 						<td><g:formatDate date="${residuoInstance.dataCadastro}" /></td>
-					
-						<td>${fieldValue(bean: residuoInstance, field: "laboratorio")}</td>
-					
+
+						<td>${fieldValue(bean: residuoInstance, field: "laboratorio.laboratorio")}</td>
+
 						<td>${fieldValue(bean: residuoInstance, field: "peso")}</td>
-					
+
 					</tr>
 				</g:each>
 				</tbody>

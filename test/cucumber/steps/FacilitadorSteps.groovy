@@ -1,6 +1,5 @@
 package steps
 
-import cucumber.api.PendingException
 import pages.facilitador.IndexFacilitador
 import pages.facilitador.RelatorioFacilitador
 import pages.laboratorio.CreateLaboratorio
@@ -8,8 +7,6 @@ import pages.laboratorio.ShowLaboratorio
 import pages.residuo.CreateResiduo
 import pages.residuo.IndexResiduo
 import pages.residuo.ShowResiduo
-
-import javax.persistence.Index
 
 /**
  * Created by pedro on 04/11/16.
@@ -19,7 +16,7 @@ this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
 Given(~/^o residuos "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
-String res, peso ->
+String res, String peso, String data->
     // É preciso garantir que existe um laboratorio para o
     // teste ja que as implementacoes relativas a autenticacao
     // de usuario foram aconselhadas a nao serem feitas
@@ -30,14 +27,14 @@ String res, peso ->
     to CreateResiduo
     at CreateResiduo
     // Data aleatoria já que nesse teste não importa a data
-    page.createResiduo(res, peso, "20/09/2016")
+    page.createResiduo(res, peso, data)
     at ShowResiduo
 }
 And(~/^o residuo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
-String res, peso ->
+String res, String peso, String data ->
     to CreateResiduo
     at CreateResiduo
-    page.createResiduo(res, peso, "20/09/2016")
+    page.createResiduo(res, peso, data)
     at ShowResiduo
 }
 When(~/^eu vou para a pagina principal de facilitador$/) { ->
@@ -84,6 +81,10 @@ String res1, String res2, String res3 ->
 
 Given(~/^o residuos "([^"]*)" na data "([^"]*)" está cadastrado$/) {
 String res, String data ->
+    to CreateLaboratorio
+    at CreateLaboratorio
+    page.createLaboratorio()
+    at ShowLaboratorio
     to IndexResiduo
     at IndexResiduo
     page.hasResiduo(res, data)
@@ -108,16 +109,3 @@ int n ->
     page.hasQntResiduos(n)
 }
 
-Given(~/^nenhum residuo se encontra armazenado$/) {
-    to IndexFacilitador
-    at IndexFacilitador
-    page.isEmpty()
-}
-When(~/^eu clico para remover os residuos com "([^"]*)" como a data$/) {
-String data ->
-    page.removeResiduos(data)
-}
-Then(~/^eu posso ver uma pagina com uma mensagem de erro$/) { ->
-    at IndexFacilitador
-    page.hasRemoveError()
-}
