@@ -1,14 +1,16 @@
 package steps
 
 import cucumber.api.PendingException
-import pages.facilitador.IndexFacilitador
-import pages.facilitador.RelatorioFacilitador
-import pages.laboratorio.CreateLaboratorio
-import pages.laboratorio.ShowLaboratorio
-import pages.residuo.CreateResiduo
-import pages.residuo.IndexResiduo
-import pages.residuo.ShowResiduo
+import pages.CreateResiduoPage
+import pages.IndexFacilitadorPage
+import pages.IndexResiduoPage
+import pages.RelatorioFacilitadorPage
+import pages.ShowResiduoPage
+import residuosquimicos.FacilitadorController
 import residuosquimicos.Laboratorio
+import residuosquimicos.LaboratorioController
+import residuosquimicos.LaboratorioList
+import residuosquimicos.Residuo
 import residuosquimicos.ResiduoController
 
 /**
@@ -18,112 +20,68 @@ import residuosquimicos.ResiduoController
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-Given(~/^o residuos "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
-String res, String peso, String data->
-    // É preciso garantir que existe um laboratorio para o
-    // teste ja que as implementacoes relativas a autenticacao
-    // de usuario foram aconselhadas a nao serem feitas
-    to CreateLaboratorio
-    at CreateLaboratorio
-    page.createLaboratorio()
-    at ShowLaboratorio
-    to CreateResiduo
-    at CreateResiduo
-    // Data aleatoria já que nesse teste não importa a data
-    page.createResiduo(res, peso, data)
-    at ShowResiduo
+Given(~/^o resíduo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) { String arg1, int arg2, String arg3 ->
+    to CreateResiduoPage
+    at CreateResiduoPage
+    page.createResiduo(arg1, arg2, arg3)
+    at ShowResiduoPage
 }
-And(~/^o residuo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado$/) {
-String res, String peso, String data ->
-    to CreateResiduo
-    at CreateResiduo
-    page.createResiduo(res, peso, data)
-    at ShowResiduo
+When(~/^eu vou para a página principal de facilitador$/) { ->
+    to IndexFacilitadorPage
+    at IndexFacilitadorPage
 }
-When(~/^eu vou para a pagina principal de facilitador$/) { ->
-    to IndexFacilitador
-    at IndexFacilitador
+Then(~/^eu visualizo (\d+) como o somatório dos pesos como peso total do laboratório$/) { int arg1 ->
+    page.comparePeso(arg1)
 }
-Then(~/^eu visualizo o (\d+) como o somatorio dos pesos como peso total do laboratorio$/) {
-int pesoTotal ->
-    page.comparePeso(pesoTotal)
+And(~/^o numero (\d+) como quantidade total de residuos$/) { int arg1 ->
+    page.compareQnt(arg1)
 }
-And(~/^o numero (\d+) como quantidade total de residuos$/) {
-int qntResiduos ->
-    page.compareQnt(qntResiduos)
+When(~/^eu clico para gerar relatório com "([^"]*)" como data$/) { String arg1 ->
+    to IndexFacilitadorPage
+    at IndexFacilitadorPage
+    page.gerarRelatorio(arg1)
 }
-
-Given(~/^os residuos "([^"]*)" e "([^"]*)" estão cadastrados no sistema$/) {
-String res1, String res2 ->
-    to IndexResiduo
-    at IndexResiduo
-    page.hasResiduo(res1)
-    page.hasResiduo(res2)
+Then(~/^eu visualizo o resíduo "([^"]*)" na página de relatório$/) { String arg1 ->
+    at RelatorioFacilitadorPage
+    page.hasResiduo(arg1)
 }
-And(~/^o residuo "([^"]*)" com a data "([^"]*)" também está cadastrado$/) {
-String res, String data ->
-    to CreateResiduo
-    at CreateResiduo
-    // Peso arbitrario ja que o peso não importa nesse teste
-    page.createResiduo(res, 10, data)
-    at ShowResiduo
+And(~/^eu vou para pagina principal de facilitador$/) { ->
+    to IndexFacilitadorPage
+    at IndexFacilitadorPage
 }
-When(~/^eu clico para gerar relatorio com "([^"]*)" como data$/) {
-String data ->
-    to IndexFacilitador
-    at IndexFacilitador
-    page.gerarRelatorio(data)
-    at RelatorioFacilitador
+When(~/^eu seleciono "([^"]*)" como a data e clico para remover os residuos$/) { String arg1 ->
+    page.removerResiduos(arg1)
 }
-Then(~/^eu visalizo os residuos "([^"]*)", "([^"]*)" e "([^"]*)" na pagina de relatorio$/) {
-String res1, String res2, String res3 ->
-    page.hasResiduo(res1)
-    page.hasResiduo(res2)
-    page.hasResiduo(res3)
+And(~/^eu vou para a página de listagem de resíduo$/) { ->
+    to IndexResiduoPage
+    at IndexResiduoPage
 }
-
-Given(~/^o residuos "([^"]*)" na data "([^"]*)" está cadastrado$/) {
-String res, String data ->
-    to IndexResiduo
-    at IndexResiduo
-    page.hasResiduo(res, data)
-}
-And(~/^o residuo "([^"]*)" na data "([^"]*)" está cadastrado$/) {
-String res, String data ->
-    to IndexResiduo
-    at IndexResiduo
-    page.hasResiduo(res, data)
-}
-When(~/^eu vou para pagina principal de facilitador$/) { ->
-    to IndexFacilitador
-    at IndexFacilitador
-}
-And(~/^eu seleciono "([^"]*)" como a data e clico para remover os residuos$/) {
-String data ->
-    page.removeResiduos(data)
-}
-Then(~/^eu posso ver uma pagina vazia$/) { ->
-    to IndexResiduo
+Then(~/^não existem resíduos a serem listados$/) { ->
     page.isEmpty()
 }
 
-def criarResiduo(nome, data, controller) {
-    controller << [nome: nome, data: new Date(data), descricao: "None", laboratorio: Laboratorio.find(1)]
-    controller.save()
-    controller.response.reset()
+def criarResiduo(nome, peso, data, laboratorio){
+    def controlador = new ResiduoController()
+    controlador.save(new Residuo([nome: nome, composicao:"None", peso: peso, dataCadastro: (new Date(data)), laboratorio:Laboratorio.findByLaboratorio(laboratorio)]))
+    controlador.response.reset()
 }
 
-Given(~/^o residuos "([^"]*)" está cadastrado na data "([^"]*)"$/) {
-String nome, String data ->
-    def resCont = new ResiduoController()
-    criarResiduo(nome, data, resCont)
-    assert Residuo.size() == 1
+def removerResiduosDesde(data, laboratorio, controlador) {
+    def d = new Date(data)
+    def lab = Laboratorio.findByLaboratorio(laboratorio)
+    controlador.params << [laboratorio:lab, date:d]
+    controlador.removeAllSince()
+    controlador.response.reset()
 }
-When(~/^eu requisito um relatorio dos residuos a partir de "([^"]*)"$/) { String arg1 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+
+Given(~/^o resíduo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado no sistema$/) { String arg1, int arg2, String arg3 ->
+    criarResiduo(arg1, arg2, arg3, LaboratorioList.LABORATORIO_DE_FARMACOLOGIA_E_CANCEROLOGIA_EXPERIMENTAIS)
 }
-Then(~/^nada é retornado$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+When(~/^eu requisito uma remoção de resíduos a partir da data "([^"]*)"$/) { String arg1 ->
+    def controlador = new FacilitadorController()
+    removerResiduosDesde(arg1, LaboratorioList.LABORATORIO_DE_FARMACOLOGIA_E_CANCEROLOGIA_EXPERIMENTAIS, controlador)
+}
+Then(~/^a lista possui somente (\d+) resíduo$/) { int arg1 ->
+    def count = Residuo.count()
+    assert count == arg1
 }

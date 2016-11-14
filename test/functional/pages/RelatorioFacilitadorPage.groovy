@@ -1,11 +1,11 @@
-package pages.facilitador
+package pages
 
 import geb.Page
 
 /**
  * Created by pedro on 05/11/16.
  */
-class RelatorioFacilitador extends Page {
+class RelatorioFacilitadorPage extends Page {
 
     static url = "/ResiduosQuimicos/facilitador/index"
 

@@ -1,4 +1,4 @@
-package pages.facilitador
+package pages
 
 import geb.Page
 
@@ -7,7 +7,7 @@ import java.text.DateFormatSymbols
 /**
  * Created by pedro on 04/11/16.
  */
-class IndexFacilitador extends Page {
+class IndexFacilitadorPage extends Page {
 
     static url = "/ResiduosQuimicos/facilitador/index"
 
@@ -36,7 +36,7 @@ class IndexFacilitador extends Page {
         $("input", class: "relatory").click()
     }
 
-    def removeResiduos(data) {
+    def removerResiduos(data) {
         data = data.split("/")
         def dia = data[0]
         def mes = data[1]

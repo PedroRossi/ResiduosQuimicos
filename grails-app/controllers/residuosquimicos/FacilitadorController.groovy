@@ -1,6 +1,7 @@
 package residuosquimicos
 
-import grails.validation.Validateable
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
 
 class FacilitadorController {
 
@@ -20,9 +21,17 @@ class FacilitadorController {
         [peso: pesoTotal, qntResiduos: qntResiduos]
     }
 
+    @Transactional
     def removeAllSince() {
         def laboratorioInstance = Laboratorio.get(params.laboratorio.id)
-        laboratorioInstance.residuos.clear(flush: true)
+        if(laboratorioInstance != null) {
+            laboratorioInstance.residuos.each {
+                if(params.date < it.dataCadastro) {
+                    laboratorioInstance.removeFromResiduos(it)
+                    it.delete()
+                }
+            }
+        }
         request.withFormat {
             form multipartForm {
                 //flash.message = message(code: 'default.deleted.message', args: [message(code: 'Residuo.label', default: 'Residuo'), count])
@@ -36,9 +45,11 @@ class FacilitadorController {
         def laboratorioInstance = Laboratorio.get(params.laboratorio.id)
         def date = params.date
         def residuos = []
-        laboratorioInstance.residuos.each {
-            if(it.dataCadastro >= date) {
-                residuos.push(it)
+        if(laboratorioInstance != null) {
+            laboratorioInstance.residuos.each {
+                if(it.dataCadastro >= date) {
+                    residuos.push(it)
+                }
             }
         }
         [residuos: residuos]

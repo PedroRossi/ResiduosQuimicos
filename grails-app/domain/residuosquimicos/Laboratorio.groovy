@@ -25,13 +25,13 @@ class Laboratorio {
     static hasMany = [residuos: Residuo]
 
     static mapping = {
-        //residuos cascade: "all-delete-orphan"
+        residuos cascade: "all-delete-orphan", lazy: false
     }
 
     static constraints = {
         centro blank: false
         departamento blank: false
-        laboratorio blank: false, nullable: true
+        laboratorio blank: false
         solicitante nullable: true
         responsavel nullable: true
     }

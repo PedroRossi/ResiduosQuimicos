@@ -3,11 +3,6 @@ Feature: usuario facilitador do sistema
   Eu quero ser capaz de ter uma visão completa sobre o meu laboratorio e gerenciar residuos
   De modo que eu gerencie melhor a geracao de residuos dele
 
-  #TODO
-  Background:
-    Given o laboratório "LABORATORIO_DE_FARMACOLOGIA_E_CANCEROLOGIA_EXPERIMENTAIS" do departamento "DEPARTAMENTO_DE_ANTIBIOTICOS" do centro "CB" está cadastrado
-    And todos os resíduos criados estaram associados a este laboratório
-
   #GUI
   Scenario: mostrar o peso total acumulado no momento
     Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
