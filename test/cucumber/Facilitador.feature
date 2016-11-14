@@ -38,7 +38,6 @@ Feature: usuario facilitador do sistema
     Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado no sistema
     And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado no sistema
     When eu requisito uma remoção de resíduos a partir da data "20/09/2016"
-    And eu requisito uma lista de resíduos
     Then a lista possui somente 1 resíduo
     
     
