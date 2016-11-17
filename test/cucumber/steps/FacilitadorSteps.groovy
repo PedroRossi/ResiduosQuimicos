@@ -61,21 +61,22 @@ Then(~/^não existem resíduos a serem listados$/) { ->
 }
 
 def criarResiduo(nome, peso, data, laboratorio){
-    def controlador = new ResiduoController()
-    controlador.save(new Residuo([nome: nome, composicao:"None", peso: peso, dataCadastro: (new Date(data)), laboratorio:Laboratorio.findByLaboratorio(laboratorio)]))
-    controlador.response.reset()
+    def lab = Laboratorio.findByLaboratorio(laboratorio)
+    def residuo = new Residuo([nome: nome, descricao:"None", peso: (double)peso, dataCadastro: (new Date(data)), laboratorio:lab])
+    residuo.save(flush: true)
 }
 
 def removerResiduosDesde(data, laboratorio, controlador) {
-    def d = new Date(data)
+    def d = data.split('/');
     def lab = Laboratorio.findByLaboratorio(laboratorio)
-    controlador.params << [laboratorio:lab, date:d]
+    controlador.params << [laboratorio: lab.id, date: "date.struct", date_day: d[0], date_month: d[1], date_year: d[2], _action_removeAllSince: "Delete"]
     controlador.removeAllSince()
     controlador.response.reset()
 }
 
 Given(~/^o resíduo "([^"]*)" pesando (\d+) na data "([^"]*)" está cadastrado no sistema$/) { String arg1, int arg2, String arg3 ->
     criarResiduo(arg1, arg2, arg3, LaboratorioList.LABORATORIO_DE_FARMACOLOGIA_E_CANCEROLOGIA_EXPERIMENTAIS)
+    assert Residuo.findByNome(arg1) != null
 }
 When(~/^eu requisito uma remoção de resíduos a partir da data "([^"]*)"$/) { String arg1 ->
     def controlador = new FacilitadorController()

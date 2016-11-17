@@ -26,7 +26,7 @@
             <fieldset class="form">
                 <div class="fieldcontain">
                     <label for="laboratorio"></label>
-                    <g:select id="laboratorio" name="laboratorio.id" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.laboratorio?.id}" class="many-to-one"/>
+                    <g:select id="laboratorio" name="laboratorio" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.laboratorio?.id}" class="many-to-one"/>
                 </div>
                 <div class="fieldcontain">
                     <label for="date"></label>
