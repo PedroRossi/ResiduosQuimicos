@@ -3,13 +3,6 @@ Feature: usuario facilitador do sistema
   Eu quero ser capaz de ter uma visão completa sobre o meu laboratorio e gerenciar residuos
   De modo que eu gerencie melhor a geracao de residuos dele
 
-  #CONTROLLER
-  Scenario: garantir que o sistema deleta resíduos a partir de certa data
-    Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado no sistema
-    And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado no sistema
-    When eu requisito uma remoção de resíduos a partir da data "20/09/2016"
-    Then a lista possui somente 1 resíduo
-
   #GUI
   Scenario: mostrar o peso total acumulado no momento
     Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
@@ -34,3 +27,10 @@ Feature: usuario facilitador do sistema
     When eu seleciono "18/08/2016" como a data e clico para remover os residuos
     And eu vou para a página de listagem de resíduo
     Then não existem resíduos a serem listados
+
+  #CONTROLLER
+  Scenario: garantir que o sistema deleta resíduos a partir de certa data
+    Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado no sistema
+    And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado no sistema
+    When eu requisito uma remoção de resíduos a partir da data "18/09/2016"
+    Then a lista possui somente 0 resíduos

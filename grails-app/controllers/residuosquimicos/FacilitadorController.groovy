@@ -5,7 +5,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class FacilitadorController {
 
-    static allowedMethods = [removeAllSince: "PUT"]
+    static allowedMethods = [removeAllSince: "POST"]
 
     def index() { }
 
@@ -25,13 +25,18 @@ class FacilitadorController {
 
     @Transactional
     def removeAllSince() {
-        def laboratorioInstance = Laboratorio.get(params.laboratorio)
+        Laboratorio laboratorioInstance = Laboratorio.findById(params.laboratorio)
         if(laboratorioInstance != null) {
+            def residuos = []
             laboratorioInstance.residuos.each {
                 if(params.date < it.dataCadastro) {
-                    laboratorioInstance.removeFromResiduos(it)
-                    it.delete(flush: true)
+                    residuos.push(it)
                 }
+            }
+            residuos.each {
+                Residuo aux = it
+                laboratorioInstance.removeFromResiduos(aux)
+                aux.delete(flush: true)
             }
         }
         flash.message = message(code: 'default.deleted.message')

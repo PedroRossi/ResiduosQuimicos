@@ -20,6 +20,7 @@
             </ul>
         </div>
         <div id="list-residuo" class="content scaffold-list" role="main">
+            <g:set var="entityName" value="${message(code: 'residuo.label', default: 'Residuo')}" />
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>

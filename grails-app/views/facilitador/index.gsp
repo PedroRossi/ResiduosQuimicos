@@ -5,7 +5,6 @@
   Time: 09:38
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="residuosquimicos.Laboratorio" %>
 <html>
     <head>
         <meta name="layout" content="main">
@@ -26,16 +25,16 @@
             <fieldset class="form">
                 <div class="fieldcontain">
                     <label for="laboratorio"></label>
-                    <g:select id="laboratorio" name="laboratorio" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.laboratorio?.id}" class="many-to-one"/>
+                    <g:select id="laboratorio" name="laboratorio" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.id}" class="many-to-one"/>
                 </div>
                 <div class="fieldcontain">
                     <label for="date"></label>
-                    <g:datePicker name="date" precision="day"/>
+                    <g:datePicker name="date" precision="day" value="${params.date}"/>
                 </div>
             </fieldset>
             <fieldset class="buttons">
-                <g:actionSubmit id="remove" name="Remove" class="delete" action="removeAllSince" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
-                <g:actionSubmit id="relatory" name="Relatory" class="relatory" action="relatory" value="${message(code: 'default.button.list.label', default: 'Relatory')}" />
+                <g:submitButton id="remove" formaction="removeAllSince" name="removeAllSince" class="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
+                <g:submitButton id="relatory" formaction="relatory" name="Relatory" class="relatory" action="relatory" value="${message(code: 'default.button.list.label', default: 'Relatory')}" />
             </fieldset>
           </g:form>
         </div>

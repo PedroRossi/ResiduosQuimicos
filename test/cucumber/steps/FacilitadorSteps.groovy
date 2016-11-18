@@ -1,6 +1,5 @@
 package steps
 
-import cucumber.api.PendingException
 import pages.CreateResiduoPage
 import pages.IndexFacilitadorPage
 import pages.IndexResiduoPage
@@ -8,7 +7,6 @@ import pages.RelatorioFacilitadorPage
 import pages.ShowResiduoPage
 import residuosquimicos.FacilitadorController
 import residuosquimicos.Laboratorio
-import residuosquimicos.LaboratorioController
 import residuosquimicos.LaboratorioList
 import residuosquimicos.Residuo
 import residuosquimicos.ResiduoController
@@ -62,14 +60,28 @@ Then(~/^não existem resíduos a serem listados$/) { ->
 
 def criarResiduo(nome, peso, data, laboratorio){
     def lab = Laboratorio.findByLaboratorio(laboratorio)
+    def controlador = new ResiduoController()
     def residuo = new Residuo([nome: nome, descricao:"None", peso: (double)peso, dataCadastro: (new Date(data)), laboratorio:lab])
-    residuo.save(flush: true)
+    assert residuo.laboratorio != null
+    controlador.request.method = "POST"
+    assert controlador.request.post
+    controlador.save(residuo)
+    assert controlador.response.status == 201
+    if(lab.residuos == null) lab.residuos = [residuo]
+    else lab.residuos.add(residuo)
+    lab.save(flush: true)
+    controlador.response.reset()
 }
 
-def removerResiduosDesde(data, laboratorio, controlador) {
+def removerResiduosDesde(data, laboratorio, FacilitadorController controlador) {
     def d = data.split('/');
     def lab = Laboratorio.findByLaboratorio(laboratorio)
-    controlador.params << [laboratorio: lab.id, date: "date.struct", date_day: d[0], date_month: d[1], date_year: d[2], _action_removeAllSince: "Delete"]
+    assert lab != null
+    //def params = [laboratorio: lab.id, date: "date.struct", date_day: d[0], date_month: d[1], date_year: d[2], _action_removeAllSince: "Delete"]
+    def params = [removeAllSince:"Delete", date_day:d[0], laboratorio:lab.id, date_year:d[2], date_month:d[1], date:"date.struct", action:"removeAllSince", format:null, controller:"facilitador"]
+    controlador.request.method = "POST"
+    assert controlador.request.post
+    controlador.params << params
     controlador.removeAllSince()
     controlador.response.reset()
 }
@@ -82,7 +94,7 @@ When(~/^eu requisito uma remoção de resíduos a partir da data "([^"]*)"$/) { 
     def controlador = new FacilitadorController()
     removerResiduosDesde(arg1, LaboratorioList.LABORATORIO_DE_FARMACOLOGIA_E_CANCEROLOGIA_EXPERIMENTAIS, controlador)
 }
-Then(~/^a lista possui somente (\d+) resíduo$/) { int arg1 ->
+Then(~/^a lista possui somente (\d+) resíduos$/) { int arg1 ->
     def count = Residuo.count()
     assert count == arg1
 }
