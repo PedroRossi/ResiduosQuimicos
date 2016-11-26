@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import steps.InternationalizationHelper
 
 import java.text.DateFormatSymbols
 
@@ -12,7 +13,10 @@ class IndexFacilitadorPage extends Page {
     static url = "/ResiduosQuimicos/facilitador/index"
 
     static at = {
-        title ==~ /Index Facilitador/
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        String labelFacilitador = "Facilitador" //code.label
+        String indexFacilitadorTitleList = helper.getMessage("default.home.label", labelFacilitador)
+        title ==~ indexFacilitadorTitleList
     }
 
     boolean comparePeso(peso) {

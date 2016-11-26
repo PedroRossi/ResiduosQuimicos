@@ -8,8 +8,8 @@
 <html>
     <head>
         <meta name="layout" content="main">
-        <g:set var="entityName" value="Residuos" />
-        <title>Index Facilitador</title>
+        <g:set var="entityName" value="Facilitador" />
+        <title><g:message code="default.home.label" args="[entityName]" /></title>
     </head>
     <body>
         <a href="#list-laboratorio" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

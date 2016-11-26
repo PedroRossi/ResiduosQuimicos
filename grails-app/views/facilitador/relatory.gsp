@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta name="layout" content="main">
-        <title>Relatorio</title>
+        <title><g:message code="default.resume.label"/></title>
     </head>
 
     <body>

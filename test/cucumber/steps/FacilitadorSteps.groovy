@@ -34,7 +34,7 @@ Then(~/^eu visualizo (\d+) como o somatório dos pesos como peso total do labora
 And(~/^o numero (\d+) como quantidade total de residuos$/) { int arg1 ->
     page.compareQnt(arg1)
 }
-When(~/^eu clico para gerar relatório com "([^"]*)" como data$/) { String arg1 ->
+When(~/^eu gero um relatório com "([^"]*)" como data$/) { String arg1 ->
     to IndexFacilitadorPage
     at IndexFacilitadorPage
     page.gerarRelatorio(arg1)
