@@ -20,23 +20,26 @@
             </ul>
         </div>
         <div class="content scaffold-create" role="main">
-          <h1><g:message code="default.delete.label" args="[entityName]"/> <g:message code="default.paginate.since"/></h1>
-          <g:form url="[resource: laboratorioInstance]">
-            <fieldset class="form">
-                <div class="fieldcontain">
-                    <label for="laboratorio"></label>
-                    <g:select id="laboratorio" name="laboratorio" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.id}" class="many-to-one"/>
-                </div>
-                <div class="fieldcontain">
-                    <label for="date"></label>
-                    <g:datePicker name="date" precision="day" value="${params.date}"/>
-                </div>
-            </fieldset>
-            <fieldset class="buttons">
-                <g:submitButton id="remove" formaction="removeAllSince" name="removeAllSince" class="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
-                <g:submitButton id="relatory" formaction="relatory" name="Relatory" class="relatory" action="relatory" value="${message(code: 'default.button.list.label', default: 'Relatory')}" />
-            </fieldset>
-          </g:form>
+            <h1><g:message code="default.delete.label" args="[entityName]"/> <g:message code="default.paginate.since"/></h1>
+            <g:if test="${flash.message}">
+                <div class="message" role="status">${flash.message}</div>
+            </g:if>
+            <g:form url="[resource: laboratorioInstance]">
+                <fieldset class="form">
+                    <div class="fieldcontain">
+                        <label for="laboratorio"></label>
+                        <g:select id="laboratorio" name="laboratorio" from="${residuosquimicos.Laboratorio.list()}" optionKey="id" optionValue="laboratorio" required="" value="${laboratorioInstance?.id}" class="many-to-one"/>
+                    </div>
+                    <div class="fieldcontain">
+                        <label for="date"></label>
+                        <g:datePicker name="date" precision="day" value="${params.date}"/>
+                    </div>
+                </fieldset>
+                <fieldset class="buttons">
+                    <g:submitButton id="remove" formaction="removeAllSince" name="removeAllSince" class="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" />
+                    <g:submitButton id="relatory" formaction="relatory" name="Relatory" class="relatory" action="relatory" value="${message(code: 'default.button.list.label', default: 'Relatory')}" />
+                </fieldset>
+            </g:form>
         </div>
     </body>
 </html>

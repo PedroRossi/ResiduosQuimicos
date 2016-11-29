@@ -26,11 +26,13 @@ class FacilitadorController {
     @Transactional
     def removeAllSince() {
         Laboratorio laboratorioInstance = Laboratorio.findById(params.laboratorio)
+        def count = 0
         if(laboratorioInstance != null) {
             def residuos = []
             laboratorioInstance.residuos.each {
                 if(params.date < it.dataCadastro) {
                     residuos.push(it)
+                    count++
                 }
             }
             residuos.each {
@@ -39,7 +41,7 @@ class FacilitadorController {
                 aux.delete(flush: true)
             }
         }
-        flash.message = message(code: 'default.deleted.message')
+        flash.message = message(code: 'default.deleted.message', args: [count, message(code: 'residuo.label', default: 'Residuos')])
         redirect(action:"index", method:"GET")
     }
 
