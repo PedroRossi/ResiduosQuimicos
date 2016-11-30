@@ -5,7 +5,8 @@ Feature: usuario facilitador do sistema
 
   #GUI
   Scenario: mostrar o peso total acumulado no momento
-    Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
+    Given nenhum residuo está cadastrado
+    And o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
     And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado
     When eu vou para a página principal de facilitador
     Then eu visualizo 30 como o somatório dos pesos como peso total do laboratório
@@ -13,7 +14,8 @@ Feature: usuario facilitador do sistema
 
   #GUI
   Scenario: mostrar uma lista de residuos a partir de uma certa data
-    Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
+    Given nenhum residuo está cadastrado
+    And o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
     And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado
     And o resíduo "e3" pesando 30 na data "18/09/2016" está cadastrado
     When eu gero um relatório com "20/08/2016" como data
@@ -21,7 +23,8 @@ Feature: usuario facilitador do sistema
 
   #GUI
   Scenario: deletar todos os residuos a partir de certa data
-    Given o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
+    Given nenhum residuo está cadastrado
+    And o resíduo "e1" pesando 10 na data "21/09/2016" está cadastrado
     And o resíduo "e2" pesando 20 na data "19/09/2016" está cadastrado
     When eu vou para pagina principal de facilitador
     And eu seleciono "18/08/2016" como a data e clico para remover os residuos

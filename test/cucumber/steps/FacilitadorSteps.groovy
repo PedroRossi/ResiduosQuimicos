@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import pages.CreateResiduoPage
 import pages.IndexFacilitadorPage
 import pages.IndexResiduoPage
@@ -97,4 +98,9 @@ When(~/^eu requisito uma remoção de resíduos a partir da data "([^"]*)"$/) { 
 Then(~/^a lista possui somente (\d+) resíduos$/) { int arg1 ->
     def count = Residuo.count()
     assert count == arg1
+}
+Given(~/^nenhum residuo está cadastrado$/) { ->
+    to IndexResiduoPage
+    at IndexResiduoPage
+    page.isEmpty()
 }
